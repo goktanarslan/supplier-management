@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supplier Management</title>
+
+  <script>
+    window['sap-ushell-config'] = {
+      defaultRenderer: 'fiori2',
+      renderers: {
+        fiori2: {
+          componentData: {
+            config: {
+              enableSearch: false
+            }
+          }
+        }
+      },
+      applications: {},
+      services: {
+        LaunchPage: {
+          adapter: {
+            config: {
+              groups: [{
+                id: "SupplierManagement",
+                title: "Supplier Management",
+                isPreset: true,
+                isVisible: true,
+                isGroupLocked: false,
+                tiles: [
+                  {
+                    id: "SupplierPortal",
+                    tileType: "sap.ushell.ui.tile.StaticTile",
+                    properties: {
+                      title: "Supplier Portal",
+                      info: "Tedarikci",
+                      targetURL: "#Supplier-portal"
+                    }
+                  },
+                  {
+                    id: "SupplierApprovals",
+                    tileType: "sap.ushell.ui.tile.StaticTile",
+                    properties: {
+                      title: "Supplier Approvals",
+                      info: "Onayci",
+                      targetURL: "#Supplier-approve"
+                    }
+                  }
+                ]
+              }]
+            }
+          }
+        },
+        NavTargetResolution: {
+          config: { enableClientSideTargetResolution: true }
+        },
+        ClientSideTargetResolution: {
+          adapter: {
+            config: {
+              inbounds: {
+                SupplierPortal: {
+                  semanticObject: "Supplier",
+                  action: "portal",
+                  title: "Supplier Portal",
+                  signature: { parameters: {}, additionalParameters: "ignored" },
+                  resolutionResult: {
+                    applicationType: "SAPUI5",
+                    additionalInformation: "SAPUI5.Component=codeup.supplierportal",
+                    url: "./codeup.supplierportal/myui5app/webapp"
+                  }
+                },
+                SupplierApprovals: {
+                  semanticObject: "Supplier",
+                  action: "approve",
+                  title: "Supplier Approvals",
+                  signature: { parameters: {}, additionalParameters: "ignored" },
+                  resolutionResult: {
+                    applicationType: "SAPUI5",
+                    additionalInformation: "SAPUI5.Component=codeup.supplierapprovals",
+                    url: "./codeup.supplierapprovals/myui5app/webapp"
+                  }
+                }
+              }
+            }
+          }
+        },
+        UserInfo: {
+          adapter: {
+            config: {
+              userProfile: {
+                firstName: "BTP",
+                lastName: "Kullanıcı",
+                email: "user@btp.ondemand.com",
+                fullName: "BTP Kullanıcı"
+              }
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <script
+    id="sap-ushell-bootstrap"
+    src="https://ui5.sap.com/test-resources/sap/ushell/bootstrap/sandbox.js">
+  </script>
+
+  <script
+    id="sap-ui-bootstrap"
+    src="https://ui5.sap.com/resources/sap-ui-core.js"
+    data-sap-ui-libs="sap.m,sap.ushell,sap.collaboration,sap.ui.layout"
+    data-sap-ui-compatVersion="edge"
+    data-sap-ui-theme="sap_horizon"
+    data-sap-ui-xx-viewCache="false"
+    data-sap-ui-resourceroots='{"codeup.supplierportal": "./codeup.supplierportal/myui5app/webapp"}'>
+  </script>
+
+  <script>
+    sap.ui.getCore().attachInit(() => {
+      sap.ushell.Container
+        .createRenderer('fiori2', true)
+        .then(renderer => renderer.placeAt('content'))
+    })
+  </script>
+</head>
+
+<body class="sapUiBody" id="content"></body>
+
+</html>

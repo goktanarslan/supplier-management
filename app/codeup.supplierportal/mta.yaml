@@ -1,0 +1,33 @@
+_schema-version: "3.2"
+ID: codeup.supplierportal
+version: 0.0.1
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm install
+        - npm run build:workspaces
+
+modules:
+  - name: codeup.supplierportal-approuter
+    type: nodejs
+    path: approuter
+    requires:
+      - name: codeup.supplierportal-destination-service
+    provides:
+      - name: approuter
+        properties:
+          callback-url: ${default-url}/login/callback
+    parameters:
+      disk-quota: 1024M
+      memory: 1024M
+
+resources:
+  - name: codeup.supplierportal-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-name: codeup.supplierportal-destination-service
+      service-plan: lite
+

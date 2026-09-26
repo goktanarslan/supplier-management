@@ -1,0 +1,68 @@
+{
+    "name": "supplier-management",
+    "version": "1.0.0",
+    "description": "Welcome to your new CAP project.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "approuter": "node approuter/node_modules/@sap/approuter/approuter.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "dependencies": {
+        "@cap-js/sqlite": "^3.1.1",
+        "@google/genai": "^2.24.0",
+        "@sap/cds": "^10.1.1",
+        "@sap/xsenv": "^6.2.2",
+        "@sap/xssec": "^4.15.0",
+        "bcryptjs": "^3.0.3",
+        "dotenv": "^18.0.4",
+        "express": "^5.2.1",
+        "passport": "^0.7.0",
+        "sqlite3": "^6.0.1"
+    },
+    "allowScripts": {
+        "sqlite3@6.0.1": true,
+        "bcryptjs@3.0.3": true,
+        "@cap-js/sqlite@3.1.1": true
+    },
+    "cds": {
+        "requires": {
+            "db": {
+                "kind": "sqlite",
+                "credentials": {
+                    "database": "supplier_management.sqlite"
+                }
+            },
+            "auth": {
+                "users": {
+                    "onayci": {
+                        "password": "123",
+                        "roles": [
+                            "Approval",
+                            "any"
+                        ]
+                    },
+                    "tedarikci": {
+                        "password": "123",
+                        "roles": [
+                            "any"
+                        ]
+                    }
+                }
+            },
+            "[production]": {
+                "auth": "xsuaa",
+                "db": "hana"
+            },
+            "GeminiAIDestination": {
+                "kind": "rest",
+                "credentials": {
+                    "url": "https://generativelanguage.googleapis.com"
+                }
+            }
+        }
+    }
+}

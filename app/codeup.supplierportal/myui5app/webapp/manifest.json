@@ -1,0 +1,121 @@
+{
+    "_version": "1.86.0",
+    "sap.app": {
+        "id": "codeup.supplierportal",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "dataSources": {
+            "mainService": {
+                "uri": "/odata/v4/supplier/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            }
+        },
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:custom-page",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "Supplier-portal": {
+                    "semanticObject": "Supplier",
+                    "action": "portal",
+                    "title": "{{appTitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.148.3",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.fe.templates": {},
+                "sap.suite.ui.commons": {},
+                "sap.ui.unified": {},
+                "sap.fe.core": {}
+                
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "codeup.supplierportal.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "type": "sap.ui.model.odata.v4.ODataModel",
+                "preload": true,
+                "settings": {
+                    "operationMode": "Server",
+                    "groupId": "$auto",
+                    "synchronizationMode": "None",
+                    "autoExpandSelect": true
+                }
+            }
+        },
+        "resources": {
+            "css": []
+        },
+        "routing": {
+            "config": {},
+            "routes": [
+                {
+                    "name": "SuppliersMain",
+                    "pattern": ":?query:",
+                    "target": "SuppliersMain"
+                }
+            ],
+            "targets": {
+                "SuppliersMain": {
+                    "type": "Component",
+                    "id": "SuppliersMain",
+                    "name": "sap.fe.core.fpm",
+                    "options": {
+                        "settings": {
+                            "navigation": {},
+                            "contextPath": "/PortalSuppliers",
+                            "viewName": "codeup.supplierportal.ext.view.Main"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

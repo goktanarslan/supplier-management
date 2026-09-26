@@ -1,0 +1,43 @@
+{
+  "welcomeFile": "/app/index.html",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/appconfig/(.*)$",
+      "target": "/appconfig/$1",
+      "destination": "srv-api",
+      "authenticationType": "none",
+      "cacheControl": "no-cache, no-store, must-revalidate"
+    },
+    {
+      "source": "^/app/(.*)$",
+      "target": "/$1",
+      "destination": "srv-api",
+      "authenticationType": "none",
+      "cacheControl": "no-cache, no-store, must-revalidate"
+    },
+    {
+      "source": "^/odata/v4/supplier/ApprovalSuppliers(.*)$",
+      "target": "/odata/v4/supplier/ApprovalSuppliers$1",
+      "destination": "srv-api",
+      "authenticationType": "xsuaa",
+      "scope": "$XSAPPNAME.Approval",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/odata/v4/supplier/analyzeCertificate(.*)$",
+      "target": "/odata/v4/supplier/analyzeCertificate$1",
+      "destination": "srv-api",
+      "authenticationType": "xsuaa",
+      "scope": "$XSAPPNAME.Approval",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/odata/v4/supplier/(.*)$",
+      "target": "/odata/v4/supplier/$1",
+      "destination": "srv-api",
+      "authenticationType": "none",
+      "csrfProtection": false
+    }
+  ]
+}

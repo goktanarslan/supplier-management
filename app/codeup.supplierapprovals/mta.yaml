@@ -1,0 +1,33 @@
+_schema-version: "3.2"
+ID: codeup.supplierapprovals
+version: 0.0.1
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm install
+        - npm run build:workspaces
+
+modules:
+  - name: codeup.supplierapprovals-approuter
+    type: nodejs
+    path: approuter
+    requires:
+      - name: codeup.supplierapprovals-destination-service
+    provides:
+      - name: approuter
+        properties:
+          callback-url: ${default-url}/login/callback
+    parameters:
+      disk-quota: 1024M
+      memory: 1024M
+
+resources:
+  - name: codeup.supplierapprovals-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-name: codeup.supplierapprovals-destination-service
+      service-plan: lite
+

@@ -1,0 +1,164 @@
+﻿<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:form="sap.ui.layout.form" 
+    xmlns:u="sap.ui.unified" xmlns:suite="sap.suite.ui.commons" xmlns:html="http://www.w3.org/1999/xhtml" 
+    controllerName="codeup.supplierportal.ext.view.Main">
+    
+    <Page id="MainPage" title="{i18n>appTitle}">
+        <content>
+            <VBox id="rootContainer" class="sapUiResponsiveMargin" alignItems="Center">
+                
+                <!-- 1. GİRİŞ (LOGIN) KARTI -->
+                <Panel id="panelLogin" width="450px" headerText="{i18n>loginTitle}" visible="{viewState>/isLoginVisible}">
+                    <content>
+                        <VBox id="loginFormContainer" class="sapUiSmallMargin">
+                            <Label id="lblLoginEmail" text="{i18n>lblEmail}" required="true" />
+                            <Input id="loginEmail" type="Email" placeholder="{i18n>phEmail}" width="100%" />                            
+                            <Label id="lblLoginPassword" text="{i18n>lblPassword}" required="true" class="sapUiTinyMarginTop" />
+                            <Input id="loginPassword" type="Password" width="100%" />
+
+                            <Button id="btnLogin" text="{i18n>loginTitle}" type="Emphasized" press=".onLogin" class="sapUiMediumMarginTop" width="100%" />
+                            <HBox id="loginFooterBox" justifyContent="Center" class="sapUiSmallMarginTop">
+                                <Link id="lnkToRegister" text="{i18n>registerTitle}" press=".toggleView" />
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <!-- 2. KAYIT (REGISTER) KARTI -->
+                <Panel id="panelRegister" width="480px" headerText="{i18n>registerTitle}" visible="{viewState>/isRegisterVisible}">
+                    <content>
+                        <VBox id="registerFormContainer" class="sapUiSmallMargin">
+                            <Label id="lblRegEmail" text="{i18n>lblEmail}" required="true" />
+                            <Input id="regEmail" type="Email" placeholder="{i18n>phEmail}" width="100%" />                            
+                            <Label id="lblRegPassword" text="{i18n>lblPassword}" required="true" class="sapUiTinyMarginTop" />
+                            <!-- Göz ikonlu, canlı dinlenen şifre alanı -->
+                            <Input id="regPassword" 
+                                   type="{viewState>/passwordType}" 
+                                   value="{viewState>/rawPassword}"
+                                   liveChange=".onPasswordLiveChange" 
+                                   showValueHelp="true" 
+                                   valueHelpIconSrc="{viewState>/eyeIcon}" 
+                                   valueHelpRequest=".togglePasswordVisibility"
+                                   width="100%" />
+
+                            <!-- Canlı Kural Listesi -->
+                            <VBox id="rulesContainer" visible="{viewState>/showRules}" class="sapUiTinyMarginTop">
+                                <HBox id="ruleLengthBox" alignItems="Center">
+                                    <core:Icon id="icoRuleLength" src="{= ${viewState>/ruleLength} ? 'sap-icon://accept' : 'sap-icon://border' }" 
+                                               color="{= ${viewState>/ruleLength} ? 'Positive' : 'Neutral' }" class="sapUiTinyMarginEnd" />
+                                    <Text id="txtRuleLength" text="{i18n>ruleLength}" />
+                                </HBox>
+                                <HBox id="ruleUpperBox" alignItems="Center">
+                                    <core:Icon id="icoRuleUpper" src="{= ${viewState>/ruleUpper} ? 'sap-icon://accept' : 'sap-icon://border' }" 
+                                               color="{= ${viewState>/ruleUpper} ? 'Positive' : 'Neutral' }" class="sapUiTinyMarginEnd" />
+                                    <Text id="txtRuleUpper" text="{i18n>ruleUpper}" />
+                                </HBox>
+                                <HBox id="ruleLowerBox" alignItems="Center">
+                                    <core:Icon id="icoRuleLower" src="{= ${viewState>/ruleLower} ? 'sap-icon://accept' : 'sap-icon://border' }" 
+                                               color="{= ${viewState>/ruleLower} ? 'Positive' : 'Neutral' }" class="sapUiTinyMarginEnd" />
+                                    <Text id="txtRuleLower" text="{i18n>ruleLower}" />
+                                </HBox>
+                                <HBox id="ruleDigitBox" alignItems="Center">
+                                    <core:Icon id="icoRuleDigit" src="{= ${viewState>/ruleDigit} ? 'sap-icon://accept' : 'sap-icon://border' }" 
+                                               color="{= ${viewState>/ruleDigit} ? 'Positive' : 'Neutral' }" class="sapUiTinyMarginEnd" />
+                                    <Text id="txtRuleDigit" text="{i18n>ruleDigit}" />
+                                </HBox>
+                                <HBox id="ruleSpecialBox" alignItems="Center">
+                                    <core:Icon id="icoRuleSpecial" src="{= ${viewState>/ruleSpecial} ? 'sap-icon://accept' : 'sap-icon://border' }" 
+                                               color="{= ${viewState>/ruleSpecial} ? 'Positive' : 'Neutral' }" class="sapUiTinyMarginEnd" />
+                                    <Text id="txtRuleSpecial" text="{i18n>ruleSpecial}" />
+                                </HBox>
+                            </VBox>
+
+                            <Button id="btnRegister" text="{i18n>registerTitle}" type="Emphasized" press=".onRegister" class="sapUiMediumMarginTop" width="100%" />
+                            <HBox id="registerFooterBox" justifyContent="Center" class="sapUiSmallMarginTop">
+                                <Link id="lnkToLogin" text="{i18n>loginTitle}" press=".toggleView" />
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <!-- 3. BAŞVURU FORMU -->
+                <Panel id="panelApplication" width="800px" headerText="{i18n>appDetailsTitle}" visible="{viewState>/isAppVisible}">
+                    <content>
+                        <MessageStrip id="msgCertInfo" text="{i18n>msgCertInfo}" type="Information" showIcon="true" class="sapUiSmallMarginBottom" />
+                        
+                        <!-- Tekrar başvuru durumunda form alanları salt okunur (editable=false) olur -->
+                        <form:SimpleForm id="formApplication" editable="true" layout="ColumnLayout">
+                            <form:content>
+                                <Label id="lblAppFirma" text="{i18n>lblCompany}" required="true" />
+                                <Input id="appFirma" editable="{= !${viewState>/isReadOnly} }" />
+
+                                <Label id="lblAppKisi" text="{i18n>lblContact}" required="true" />
+                                <Input id="appKisi" editable="{= !${viewState>/isReadOnly} }" />
+
+                                <Label id="lblAppTelefon" text="{i18n>lblPhone}" />
+                                <Input id="appTelefon" editable="{= !${viewState>/isReadOnly} }" />
+
+                                <Label id="lblAppUlke" text="{i18n>lblCountry}" />
+                                <Input id="appUlke" editable="{= !${viewState>/isReadOnly} }" />
+
+                                <Label id="lblAppKategori" text="{i18n>lblCategory}" />
+                                <Select id="appKategori" editable="{= !${viewState>/isReadOnly} }">
+                                    <core:Item id="catHardware" key="Hardware" text="{i18n>catHardware}" />
+                                    <core:Item id="catSoftware" key="Software" text="{i18n>catSoftware}" />
+                                    <core:Item id="catServices" key="Services" text="{i18n>catServices}" />
+                                    <core:Item id="catConsulting" key="Consulting" text="{i18n>catConsulting}" />
+                                </Select>
+
+                                <Label id="lblAppVergiNo" text="{i18n>lblTaxNo}" />
+                                <Input id="appVergiNo" editable="{= !${viewState>/isReadOnly} }" />
+
+                                <Label id="lblAppWebsite" text="{i18n>lblWebsite}" />
+                                <Input id="appWebsite" editable="{= !${viewState>/isReadOnly} }" />
+
+                                <Label id="lblAppAdres" text="{i18n>lblAddress}" />
+                                <TextArea id="appAdres" rows="2" editable="{= !${viewState>/isReadOnly} }" />
+
+                                <Label id="lblAppNotlar" text="{i18n>lblNotes}" />
+                                <TextArea id="appNotlar" rows="3" editable="{= !${viewState>/isReadOnly} }" />
+
+                                <Label id="lblAppSertifika" text="{i18n>lblCert}" required="true" />
+                                <u:FileUploader id="fileUploader" fileType="pdf" maximumFileSize="10" 
+                                    typeMissmatch=".onFileTypeMismatch" fileSizeExceed=".onFileSizeExceed" />
+                            </form:content>
+                        </form:SimpleForm>
+                        <Button id="btnFinalSubmit" text="{i18n>btnSubmit}" type="Emphasized" press=".onFinalSubmit" class="sapUiSmallMarginTop" />
+                    </content>
+                </Panel>
+
+                <!-- 4. GÖNDERİM SONRASI SÜREÇ AKIŞI (Process Flow) -->
+                <Panel id="panelProcess" width="800px" headerText="{i18n>appTitle}" visible="{viewState>/isProcessVisible}">
+                    <content>
+                        <suite:ProcessFlow id="processFlow" scrollable="false" foldedCorners="true">
+                            <suite:nodes>
+                                <suite:ProcessFlowNode id="nodeSubmitted" nodeId="1" laneId="0" 
+                                    title="{i18n>pfSubmitted}" state="{viewState>/node1State}" focused="{viewState>/node1Focused}" children="{viewState>/node1Children}" />
+                                    
+                                <suite:ProcessFlowNode id="nodeInReview" nodeId="2" laneId="1" 
+                                    title="{i18n>pfInReview}" state="{viewState>/node2State}" focused="{viewState>/node2Focused}" children="{viewState>/node2Children}" />
+                                    
+                                <!-- Dinamik i18n metin bağlaması -->
+                                <suite:ProcessFlowNode id="nodeResult" nodeId="3" laneId="2" 
+                                    title="{= ${viewState>/node3State} === 'Positive' ? ${i18n>pfApproved} : (${viewState>/node3State} === 'Negative' ? ${i18n>pfRejected} : ${i18n>pfResult}) }" 
+                                    state="{viewState>/node3State}" focused="{viewState>/node3Focused}" />
+                            </suite:nodes>
+                            <suite:lanes>
+                                <suite:ProcessFlowLaneHeader id="lane1" laneId="0" iconSrc="sap-icon://sys-enter-2" text="{i18n>pfSubmitted}" position="0" />
+                                <suite:ProcessFlowLaneHeader id="lane2" laneId="1" iconSrc="sap-icon://in-progress" text="{i18n>pfInReview}" position="1" />
+                                <suite:ProcessFlowLaneHeader id="lane3" laneId="2" iconSrc="sap-icon://decision" 
+                                    text="{= ${viewState>/node3State} === 'Positive' ? ${i18n>pfApproved} : (${viewState>/node3State} === 'Negative' ? ${i18n>pfRejected} : ${i18n>pfResult}) }" position="2" />
+                            </suite:lanes>
+                        </suite:ProcessFlow>
+
+                        <!-- Ret Durumunda Çıkacak Gerekçe ve Tekrar Başvur Butonu -->
+                        <VBox id="rejectContainer" visible="{viewState>/isRejectedVisible}" class="sapUiMediumMarginTop" alignItems="Center">
+                            <MessageStrip id="msgReject" text="{i18n>lblRejectReason} {viewState>/rejectReason}" type="Error" showIcon="true" class="sapUiSmallMarginBottom" />
+                            <Button id="btnReapply" text="{i18n>btnReapply}" type="Emphasized" press=".onReapply" />
+                        </VBox>
+                    </content>
+                </Panel>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

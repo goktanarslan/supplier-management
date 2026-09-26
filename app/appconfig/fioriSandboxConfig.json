@@ -1,0 +1,101 @@
+{
+  "services": {
+    "LaunchPage": {
+      "adapter": {
+        "config": {
+          "groups": [
+            {
+              "id": "SupplierManagement",
+              "title": "Supplier Management",
+              "isPreset": true,
+              "isVisible": true,
+              "isGroupLocked": false,
+              "tiles": [
+                {
+                  "id": "SupplierPortal",
+                  "tileType": "sap.ushell.ui.tile.StaticTile",
+                  "properties": {
+                    "title": "Supplier Portal",
+                    "info": "Tedarikci",
+                    "targetURL": "#Supplier-portal"
+                  }
+                },
+                {
+                  "id": "SupplierApprovals",
+                  "tileType": "sap.ushell.ui.tile.StaticTile",
+                  "properties": {
+                    "title": "Supplier Approvals",
+                    "info": "Onayci",
+                    "targetURL": "#Supplier-approve"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "NavTargetResolution": {
+      "config": {
+        "enableClientSideTargetResolution": true
+      }
+    },
+    "ClientSideTargetResolution": {
+      "adapter": {
+        "config": {
+          "inbounds": {
+            "SupplierPortal": {
+              "semanticObject": "Supplier",
+              "action": "portal",
+              "title": "Supplier Portal",
+              "signature": {
+                "parameters": {},
+                "additionalParameters": "ignored"
+              },
+              "resolutionResult": {
+                "applicationType": "SAPUI5",
+                "additionalInformation": "SAPUI5.Component=codeup.supplierportal",
+                "url": "./codeup.supplierportal/myui5app/webapp"
+              }
+            },
+            "SupplierApprovals": {
+              "semanticObject": "Supplier",
+              "action": "approve",
+              "title": "Supplier Approvals",
+              "signature": {
+                "parameters": {},
+                "additionalParameters": "ignored"
+              },
+              "resolutionResult": {
+                "applicationType": "SAPUI5",
+                "additionalInformation": "SAPUI5.Component=codeup.supplierapprovals",
+                "url": "./codeup.supplierapprovals/myui5app/webapp"
+              }
+            }
+          }
+        }
+      }
+    },
+    "UserInfo": {
+      "adapter": {
+        "config": {
+          "userProfile": {
+            "firstName": "",
+            "lastName": "",
+            "email": "",
+            "fullName": ""
+          }
+        }
+      }
+    }
+  },
+  "applications": {},
+  "ushell": {
+    "home": {
+      "tilesWrappedInCard": false
+    },
+    "darkMode": {
+      "enabled": false
+    }
+  }
+}

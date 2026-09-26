@@ -1,0 +1,4 @@
+ID;email;parola;firmaAdi;ilgiliKisi;telefon;ulke;kategori;vergiNo;webSitesi;adres;notlar;durum;retGerekcesi
+11111111-1111-1111-1111-111111111111;test@test.com;$2b$10$TA9kf2opivvRZzABwBLmZu1LMYw/tXD/eAsQV1Y/gNqEmHR6WaMEe;Test Firma;Ahmet Yılmaz;+905554443322;Türkiye;Software;1234567890;www.test.com;Test Adres;Test Not;Gönderildi;
+22222222-2222-2222-2222-222222222222;onay@test.com;$2b$10$TA9kf2opivvRZzABwBLmZu1LMYw/tXD/eAsQV1Y/gNqEmHR6WaMEe;Onaylı Firma;Ayşe Demir;+905551112233;Türkiye;Hardware;0987654321;www.onayli.com;Onaylı Adres;Onaylandı;Onaylandı;
+33333333-3333-3333-3333-333333333333;red@test.com;$2b$10$TA9kf2opivvRZzABwBLmZu1LMYw/tXD/eAsQV1Y/gNqEmHR6WaMEe;Reddedilmiş Firma;Mehmet Kaya;+905559998877;Türkiye;Consulting;1122334455;www.red.com;Red Adres;Eksik evrak;Reddedildi;Sertifika geçersiz.
