@@ -1,22 +1,6 @@
-# Getting Started
+  A demo app that has two interfaces, one of them is a screen for signing up and other one is for approving the registerations.
 
-Welcome to your new CAP project.
-
-It contains these folders and files, following our recommended project layout:
-
-File or Folder | Purpose
----------|----------
-`app/` | content for UI frontends goes here
-`db/` | your domain models and data go here
-`srv/` | your service models and code go here
-`readme.md` | this getting started guide
-
-## Next Steps
-
-- Open a new terminal and run `cds watch`
-- (in VS Code simply choose _**Terminal** > Run Task > cds watch_)
-- Start with your domain model, in a CDS file in `db/`
-
-## Learn More
-
-Learn more at <https://cap.cloud.sap>.
+In the CAP (Node.js) backend, a Suppliers entity is exposed as an OData service. Two separate SAP UI5
+(freestyle) applications consume this service: the Supplier Portal used by external suppliers, and
+Supplier Approvals used by the internal team. Both applications open through a Fiori Launchpad and
+all requests pass through the Approuter.
