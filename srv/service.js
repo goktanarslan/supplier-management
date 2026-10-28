@@ -100,7 +100,7 @@ class SupplierService extends cds.ApplicationService {
 
                 const documentPart = {
                     inlineData: {
-                        data: certBuffer.toString('base64'),
+                        data: certBuffer.subarray(0, 5).toString('utf8') === 'JVBER' ? certBuffer.toString('utf8') : certBuffer.toString('base64'),
                         mimeType: 'application/pdf'
                     }
                 };
@@ -127,21 +127,26 @@ class SupplierService extends cds.ApplicationService {
                 };
 
                 // x-goog-api-key header'ı GeminiAIDestination credentials.headers üzerinden otomatik eklenir.
-                                let response;
-                let retries = 3;
-                let delay = 1500;
-                for (let i = 0; i < retries; i++) {
+                // 504 Gateway Timeout ve 503 High Demand hatalarını önlemek için hızlı model ve yedek (fallback) model zinciri:
+                const models = [
+                    'gemini-3.5-flash-lite',
+                    'gemini-3.1-flash-lite',
+                    'gemini-3.8-flash'
+                ];
+                let response;
+                let lastError;
+                for (const modelName of models) {
                     try {
-                        response = await geminiSrv.send('POST', '/v1beta/models/gemini-3.8-flash:generateContent', payload);
-                        break; // Başarılı olursa döngüden çık
+                        console.log(`AI Analizi için model deneniyor: ${modelName}...`);
+                        response = await geminiSrv.send('POST', `/v1beta/models/${modelName}:generateContent`, payload);
+                        if (response) break;
                     } catch (err) {
-                        if (i === retries - 1 || (!err.message.includes('high demand') && !err.message.includes('429'))) {
-                            throw err; // Son denemeyse veya farklı bir hataysa fırlat
-                        }
-                        console.log(`Gemini API yoğunluk uyarısı (Deneme ${i+1}/${retries}). ${delay}ms bekleniyor...`);
-                        await new Promise(r => setTimeout(r, delay));
-                        delay *= 2; // Bekleme süresini katlayarak artır (Exponential Backoff)
+                        lastError = err;
+                        console.warn(`${modelName} hatası: ${err.message}. Sonraki modele geçiliyor...`);
                     }
+                }
+                if (!response && lastError) {
+                    throw lastError;
                 }
 
                 const resultText = response.candidates?.[0]?.content?.parts?.[0]?.text;
