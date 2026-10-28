@@ -97,7 +97,7 @@
             oActionBinding.setParameter("parola", sPassword);
 
             oActionBinding.execute().then(function () {
-                // ÃƒÂ…Ã‚Âifre doÃƒÂ„Ã…Â¸ruysa, kullanÃƒÂ„Ã‚Â±cÃƒÂ„Ã‚Â± bilgilerini ÃƒÂƒÃ‚Â§ek
+                // Şifre doğruysa, kullanıcı bilgilerini çek
                 var oListBinding = oModel.bindList("/PortalSuppliers", undefined, undefined, undefined, { $filter: "email eq '" + sEmail + "'" });
                 
                 oListBinding.requestContexts(0, 1).then(function (aContexts) {
@@ -129,7 +129,7 @@
                     MessageBox.error(that._getI18nText("msgLoginError") + err.message);
                 });
             }).catch(function(err){
-                // ÃƒÂ…Ã‚Âifre yanlÃƒÂ„Ã‚Â±ÃƒÂ…Ã…Â¸sa veya hata varsa
+                // Şifre yanlışsa veya hata varsa
                 MessageBox.error(that._getI18nText("msgInvalidLogin"));
             });
         },
