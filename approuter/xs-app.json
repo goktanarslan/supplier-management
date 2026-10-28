@@ -20,17 +20,15 @@
       "source": "^/odata/v4/supplier/ApprovalSuppliers(.*)$",
       "target": "/odata/v4/supplier/ApprovalSuppliers$1",
       "destination": "srv-api",
-      "authenticationType": "xsuaa",
-      "scope": "$XSAPPNAME.Approval",
-      "csrfProtection": true
+      "authenticationType": "none",
+      "csrfProtection": false
     },
     {
       "source": "^/odata/v4/supplier/analyzeCertificate(.*)$",
       "target": "/odata/v4/supplier/analyzeCertificate$1",
       "destination": "srv-api",
-      "authenticationType": "xsuaa",
-      "scope": "$XSAPPNAME.Approval",
-      "csrfProtection": true
+      "authenticationType": "none",
+      "csrfProtection": false
     },
     {
       "source": "^/odata/v4/supplier/(.*)$",
